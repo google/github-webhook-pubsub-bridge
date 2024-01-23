@@ -9,15 +9,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  id-token: write
-  contents: write
-  packages: write    
-
 jobs:
 
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+      packages: write   
+
     steps:
     - uses: actions/checkout@v3
 
