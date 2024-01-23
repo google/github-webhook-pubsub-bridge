@@ -26,3 +26,8 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+    - name: generate build provenance
+        uses: github-early-access/generate-build-provenance@main
+        with:
+          subject-path: "${{ github.workspace }}/path/to/your/build/artifact-binary
