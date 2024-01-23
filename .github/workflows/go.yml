@@ -30,4 +30,4 @@ jobs:
     - name: generate build provenance
       uses: github-early-access/generate-build-provenance@main
       with:
-        subject-path: "${{ github.workspace }}/github-webhook-pubsub-bridge
+        subject-path: "${{ github.workspace }}/github-webhook-pubsub-bridge"
