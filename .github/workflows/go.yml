@@ -37,6 +37,7 @@ jobs:
       run: go test -v ./...
 
     - name: generate build provenance
+      if: ${{ ! startsWith(github.ref, 'refs/heads/main') }}
       uses: github-early-access/generate-build-provenance@main
       with:
         subject-path: "${{ github.workspace }}/github-webhook-pubsub-bridge"
