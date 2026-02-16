@@ -3,7 +3,7 @@ module github.com/google/github-webhook-pubsub-bridge
 require (
 	cloud.google.com/go/pubsub v1.33.0
 	github.com/google/go-github/v57 v57.0.0
-	github.com/google/logger v1.1.1
+	github.com/google/logger v1.1.2
 )
 
 require (
