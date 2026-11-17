@@ -1,3 +1,17 @@
+> [!WARNING]
+> **Deprecated: this repository is no longer maintained and will be archived
+> (made read-only).** Don't deploy it or build on it.
+>
+> Google now ingests GitHub webhook events through the GitHub Events Platform
+> (GEP). Googlers should use GEP (go/github-events-platform) instead of this
+> bridge. The open-source code behind GEP is
+> [abcxyz/github-metrics-aggregator](https://github.com/abcxyz/github-metrics-aggregator).
+>
+> Earlier versions of this code hardcoded a webhook secret. Don't reuse it.
+> If you deployed this code, rotate your GitHub webhook secret. The final
+> version reads the secret from the `GITHUB_WEBHOOK_SECRET` environment
+> variable and rejects every request if it isn't set.
+
 # GitHub Webhook to Google Cloud PubSub Bridge
 
 This does exactly what it says it does.
