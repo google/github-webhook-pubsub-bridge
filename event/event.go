@@ -4,6 +4,7 @@ package event
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -11,10 +12,10 @@ import (
 )
 
 const (
-	// secretToken is the secret we currently use from GitHub that lets us verify
-	// that they actually sent us the request. It's a shared secret between us &
-	// GitHub.
-	secretToken     = "wkp5H9YShwQkWmV"
+	// secretTokenEnv names the environment variable holding the webhook secret
+	// shared with GitHub. There is no default: if it is unset or empty, every
+	// request is rejected.
+	secretTokenEnv  = "GITHUB_WEBHOOK_SECRET"
 	signatureHeader = "X-Hub-Signature"
 )
 
@@ -37,7 +38,11 @@ type Event struct {
 
 // ParseFromRequest returns a parsed Event from the incoming HTTP webhook payload.
 func ParseFromRequest(r *http.Request, received time.Time) (*Event, error) {
-	payload, err := github.ValidatePayload(r, []byte(secretToken))
+	secret := os.Getenv(secretTokenEnv)
+	if secret == "" {
+		return nil, fmt.Errorf("%s is not set; refusing to accept webhooks", secretTokenEnv)
+	}
+	payload, err := github.ValidatePayload(r, []byte(secret))
 	if err != nil {
 		return nil, fmt.Errorf("error validating payload: %v", err)
 	}
@@ -84,7 +89,7 @@ func parseRepository(wht string, payload []byte) (*RepoInfo, error) {
 	switch ev := ev.(type) {
 	case *github.OrganizationEvent:
 		return &RepoInfo{
-			IsPrivate:        false,
+			IsPrivate:        true,
 			Name:             "",
 			OwnerName:        "",
 			OrganizationName: ev.GetOrganization().GetLogin(),
